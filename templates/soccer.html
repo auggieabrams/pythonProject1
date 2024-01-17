@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Abrams Soccer Shop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add your custom stylesheets or additional Bootstrap themes here -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #6096ce;
+        }
+
+        .navbar-brand {
+            color: #ff0000;
+        }
+
+        .navbar-toggler-icon {
+            background-color: #ff0000;
+        }
+
+        .nav-link {
+            color: #ffffff;
+        }
+
+        .nav-link:hover {
+            color: #ff0000;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 10px solid #dee2e6;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            color: #000000;
+        }
+
+        .card-text {
+            color: #000000;
+        }
+
+        .btn-primary {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .btn-primary:hover {
+            background-color: #3b408c;
+            border-color: #3b408c;
+        }
+
+        footer {
+            background-color: #6096ce;
+            color: #ffc107;
+            border-top: 1px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Abrams Soccer Shop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="soccer.html">Home</a>
+            </li>
+            <!-- Add more navigation items as needed -->
+            <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact Us</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Sorting Buttons -->
+<div class="container mt-3">
+    <div class="btn-group" role="group" aria-label="Sort">
+        <button type="button" class="btn btn-secondary" onclick="sortProducts('highToLow')">Sort by Price: High to Low</button>
+        <button type="button" class="btn btn-secondary" onclick="sortProducts('lowToHigh')">Sort by Price: Low to High</button>
+    </div>
+</div>
+
+<!-- Product Listing Section -->
+<div class="container mt-3">
+    <div class="row" id="productRow">
+        <!-- Product cards will be dynamically added here -->
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white mt-5 p-4 text-center">
+    <p>&copy; Abrams Soccer Shop. All rights reserved.</p>
+</footer>
+
+<!-- Bootstrap JavaScript and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript for sorting -->
+<script>
+    // Sample product data
+    const products = [
+        { name: "Chelsea Home 23/24", price: 59.99, image: "https://static1.cdn-subsidesports.com/2/media/catalog/product/cache/38d4094f49a5c2931b615f53f1250097/3/2/323a6a8c0b4005d713f396dcdb74cff10f91cdeada0bf400eaf6fbe75a579e22.jpeg" },
+        { name: "Manchester United Home 23/24", price: 49.99, image: "https://www.sportsdirect.com/images/imgzoom/37/37893708_xxl.jpg" },
+        { name: "Barcelona Away 23/24", price: 65.00, image: "https://soccergurusport.com/cdn/shop/files/barcaaway_5000x_6d54bdda-184c-4a46-b40b-e43c2a6a3bbe_530x@2x.png?v=1695667554" },
+        { name: "Manchester City Home 23/24", price: 75.00, image: "https://shop.mancity.com/dw/image/v2/BDWJ_PRD/on/demandware.static/-/Sites-master-catalog-MAN/default/dw088ef24b/images/large/701225660001_pp_01_mcfc.png?sw=1600&sh=1600&sm=fit" },
+        { name: "Arsenal Away 23/24", price: 60.00, image: "https://assets.adidas.com/images/w_600,f_auto,q_auto/9e30161f6f37431288e35c06b811f77a_9366/Arsenal_23-24_Away_Jersey_Yellow_HZ2106_01_laydown.jpg" },
+        { name: "USA Home 23/24", price: 45.00, image: "https://cdn11.bigcommerce.com/s-bgbkv8f/images/stencil/1280x1280/products/15232/25166/AURORA_DR4044-101_PHSFH001-2000__54030.1686641502.jpg?c=2?imbypass=on" },
+
+
+        // Add more product data as needed
+    ];
+
+    // Initial product display
+    displayProducts(products);
+
+    // Function to display products
+    function displayProducts(productsArray) {
+        const productRow = document.getElementById('productRow');
+        productRow.innerHTML = '';
+
+        productsArray.forEach(product => {
+            const col = document.createElement('div');
+            col.classList.add('col-lg-4', 'mb-4');
+
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const img = document.createElement('img');
+            img.src = product.image;
+            img.alt = product.name;
+            img.classList.add('card-img-top');
+
+            const cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
+
+            const title = document.createElement('h5');
+            title.classList.add('card-title');
+            title.textContent = product.name;
+
+            const price = document.createElement('p');
+            price.classList.add('card-text');
+            price.textContent = `Price: $${product.price.toFixed(2)}`;
+
+            const addToCartBtn = document.createElement('a');
+            addToCartBtn.href = '#';
+            addToCartBtn.classList.add('btn', 'btn-primary');
+            addToCartBtn.textContent = 'Add to Cart';
+
+            cardBody.appendChild(title);
+            cardBody.appendChild(price);
+            cardBody.appendChild(addToCartBtn);
+
+            card.appendChild(img);
+            card.appendChild(cardBody);
+
+            col.appendChild(card);
+
+            productRow.appendChild(col);
+        });
+    }
+
+    // Function to sort products
+    function sortProducts(sortOrder) {
+        let sortedProducts;
+
+        if (sortOrder === 'highToLow') {
+            sortedProducts = products.slice().sort((a, b) => b.price - a.price);
+        } else if (sortOrder === 'lowToHigh') {
+            sortedProducts = products.slice().sort((a, b) => a.price - b.price);
+        }
+
+        displayProducts(sortedProducts);
+    }
+</script>
+
+<!-- Add your custom JavaScript or additional scripts here -->
+
+</body>
+</html>
